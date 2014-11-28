@@ -368,4 +368,21 @@
     XCTAssertEqual([transaction.removedObjects count], 0, @"Set of removed objects not cleared after commit");
 }
 
+-(void) testUnregisterAllChangesOnRollback{
+
+    LDBObject *insertObject = [[[LDBObjectBuilder builder] appendString:@"test" forField:@"test"] finish];
+    LDBObject *removeObject = [[[LDBObjectBuilder builder] appendString:@"test" forField:@"test"] finish];
+    LDBObject *updateObject = [[[LDBObjectBuilder builder] appendString:@"test" forField:@"test"] finish];
+
+    [transaction remove:insertObject];
+    [transaction update:removeObject];
+    [transaction insert:updateObject];
+    
+    [transaction rollback];
+    
+    XCTAssertEqual([transaction.insertedObjects count], 0, @"Inserted objects not unstanged");
+    XCTAssertEqual([transaction.updatedObjects count], 0, @"Updated objects not unstanged");
+    XCTAssertEqual([transaction.removedObjects count], 0, @"Removed objects not unstanged");
+}
+
 @end
