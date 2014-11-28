@@ -34,7 +34,7 @@
     return self;
 }
 
-#pragma mark - Methods for registering changes to be committed
+#pragma mark - Transactional methods
 
 -(void) insert:(LDBObject *)object{
 

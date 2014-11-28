@@ -264,4 +264,16 @@
     
 }
 
+-(void) testDeletingAfterInsertingResultsInNoRegistration{
+
+    LDBObject *object = [[[LDBObjectBuilder builder] appendString:@"deleted-me" forField:@"deleted-me"] finish];
+
+    [transaction insert:object];
+    [transaction remove:object];
+    
+    XCTAssertFalse([transaction.insertedObjects containsObject:object], @"Deleted object remains in inserted set after being removed");
+    XCTAssertFalse([transaction.removedObjects containsObject:object], @"Deleted object remains in deleted set after being removed");
+
+}
+
 @end
