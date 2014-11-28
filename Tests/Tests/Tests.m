@@ -254,14 +254,12 @@
 
     coll = [[LDB_MockCollection alloc] init];
     transaction = [[LDBCollectionTransaction alloc] initWithCollection:coll];
-
 }
 
 -(void) tearDown{
     
     coll = nil;
-    coll = nil;
-
+    transaction = nil;
 }
 
 
