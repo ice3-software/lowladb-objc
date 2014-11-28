@@ -97,6 +97,17 @@
     }
 }
 
+-(void) rollback{
+
+    @synchronized(self){
+
+        [_insertedObjects removeAllObjects];
+        [_updatedObjects removeAllObjects];
+        [_removedObjects removeAllObjects];
+
+    }
+}
+
 #pragma mark - Accessor methods
 
 /// ...

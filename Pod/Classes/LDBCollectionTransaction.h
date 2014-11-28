@@ -38,4 +38,6 @@
 
 -(void) commit;
 
+-(void) rollback;
+
 @end
