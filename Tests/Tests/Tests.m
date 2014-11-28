@@ -235,5 +235,14 @@
 #pragma mark - Transaction tests
 
 
+-(void) testAddsInsertedObjectToGraph{
+
+    LDBObject *object = [[[LDBObjectBuilder builder] appendString:@"mystring" forField:@"myfield"] finish];
+    
+    [transaction insert:object];
+    XCTAssertTrue([transaction.insertedObjects containersObject:object], @"Inserted object not registered with transaction");
+    
+}
+
 
 @end
