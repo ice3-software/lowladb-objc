@@ -39,6 +39,10 @@
 -(void) insert:(LDBObject *)object{
 
     @synchronized(self){
+        
+        if([_updatedObjects containsObject:object]){
+            [_updatedObjects removeObject:object];
+        }
         [_insertedObjects addObject:object];
     }
 
