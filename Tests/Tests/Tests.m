@@ -237,10 +237,12 @@
 
 -(void) testAddsInsertedObjectToGraph{
 
-    LDBObject *object = [[[LDBObjectBuilder builder] appendString:@"mystring" forField:@"myfield"] finish];
+    LDBObject *object = [[[LDBObjectBuilder builder] appendString:@"test" forField:@"test"] finish];
     
     [transaction insert:object];
-    XCTAssertTrue([transaction.insertedObjects containersObject:object], @"Inserted object not registered with transaction");
+    
+    NSLog(@"Set: %@", transaction.insertedObjects);
+    XCTAssertTrue([transaction.insertedObjects containsObject:object], @"Inserted object not registered with transaction");
     
 }
 
