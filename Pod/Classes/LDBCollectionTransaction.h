@@ -20,9 +20,9 @@
  */
 @interface LDBCollectionTransaction : NSObject
 
-@property (readonly, copy) NSOrderedSet *insertedObjects;
+@property (readonly, copy) NSMutableOrderedSet *insertedObjects;
 
-@property (readonly, copy) NSOrderedSet *updatedObjects;
+@property (readonly, copy) NSMutableOrderedSet *updatedObjects;
 
 @property (readonly, weak) LDBCollection *collection;
 

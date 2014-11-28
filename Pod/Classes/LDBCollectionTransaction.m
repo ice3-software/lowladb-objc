@@ -10,20 +10,11 @@
 
 @interface LDBCollectionTransaction (){
     
-@private
-    
-    NSMutableOrderedSet *_insertedObjects;
-    NSMutableOrderedSet *_updatedObjects;
-    
 }
-
 
 @end
 
 @implementation LDBCollectionTransaction
-
-@dynamic insertedObjects;
-
 
 #pragma mark - Ctor / dtor
 
@@ -62,20 +53,6 @@
 
 #pragma mark - Accessor methods
 
--(NSOrderedSet *)insertedObjects{
-    
-    @synchronized(_insertedObjects){
-        return [NSOrderedSet orderedSetWithOrderedSet:_insertedObjects];
-    }
-    
-}
-
--(NSOrderedSet *)updatedObjects{
-    
-    @synchronized(_updatedObjects){
-        return [NSOrderedSet orderedSetWithOrderedSet:_updatedObjects];
-    }
-    
-}
+/// ...
 
 @end
