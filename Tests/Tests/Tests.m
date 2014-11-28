@@ -245,12 +245,22 @@
 }
 
 -(void) testRegistersUpdatedObjectWithTransaction{
-
+    
     LDBObject *initialObject = [[[LDBObjectBuilder builder] appendString:@"update-me" forField:@"update-me"] finish];
     [coll insert:initialObject];
     
     [transaction update:initialObject];
     XCTAssertTrue([transaction.updatedObjects containsObject:initialObject], @"Updated object not registered with transaction");
+    
+}
+
+-(void) testRegistersRemovedObjectWithTransaction{
+    
+    LDBObject *object = [[[LDBObjectBuilder builder] appendString:@"deleted-me" forField:@"deleted-me"] finish];
+    [coll insert:object];
+    
+    [transaction remove:object];
+    XCTAssertTrue([transaction.removedObjects containsObject:object], @"Deleted object not registered with transaction");
     
 }
 

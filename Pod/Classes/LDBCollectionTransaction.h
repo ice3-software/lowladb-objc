@@ -24,6 +24,8 @@
 
 @property (readonly, copy) NSMutableOrderedSet *updatedObjects;
 
+@property (readonly, copy) NSMutableOrderedSet *removedObjects;
+
 @property (readonly, weak) LDBCollection *collection;
 
 -(instancetype) initWithCollection:(LDBCollection *)collection;
@@ -31,5 +33,7 @@
 -(void) insert:(LDBObject *)object;
 
 -(void) update:(LDBObject *)object;
+
+-(void) remove:(LDBObject *)object;
 
 @end

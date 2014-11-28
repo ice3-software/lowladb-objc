@@ -44,11 +44,19 @@
 }
 
 -(void) update:(LDBObject *)object{
-
+    
     @synchronized(_updatedObjects){
         [_updatedObjects addObject:object];
     }
+    
+}
 
+-(void) remove:(LDBObject *)object{
+    
+    @synchronized(_removedObjects){
+        [_removedObjects addObject:object];
+    }
+    
 }
 
 #pragma mark - Accessor methods
