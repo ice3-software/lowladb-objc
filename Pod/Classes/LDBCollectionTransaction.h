@@ -36,4 +36,6 @@
 
 -(void) remove:(LDBObject *)object;
 
+-(void) commit;
+
 @end

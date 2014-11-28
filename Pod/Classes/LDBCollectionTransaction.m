@@ -77,6 +77,23 @@
     
 }
 
+-(void) commit{
+
+    @synchronized(self){
+    
+        for(LDBObject *insertObject in _insertedObjects){
+            [self.collection insert:insertObject];
+        }
+        for(LDBObject *updateObject in _updatedObjects){
+            [self.collection save:updateObject];
+        }
+        for(LDBObject *removeObject in _removedObjects){
+            /// @todo...
+        }
+        
+    }
+}
+
 #pragma mark - Accessor methods
 
 /// ...

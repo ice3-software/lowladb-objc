@@ -362,7 +362,10 @@
     XCTAssertTrue(coll.hasInsertBeenCalled, @"Item not inserted");
     XCTAssertTrue(coll.hasSaveBeenCalled, @"Item not updated");
     XCTAssertTrue(coll.hasDeleteBeenCalled, @"Item not deleted - note, not current sure how to delete items in a collection");
-    
+ 
+    XCTAssertEqual([transaction.insertedObjects count], 0, @"Set of inserted objects not cleared after commit");
+    XCTAssertEqual([transaction.updatedObjects count], 0, @"Set of updated objects not cleared after commit");
+    XCTAssertEqual([transaction.removedObjects count], 0, @"Set of removed objects not cleared after commit");
 }
 
 @end
