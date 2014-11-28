@@ -22,10 +22,14 @@
 
 @property (readonly, copy) NSOrderedSet *insertedObjects;
 
+@property (readonly, copy) NSOrderedSet *updatedObjects;
+
 @property (readonly, weak) LDBCollection *collection;
 
 -(instancetype) initWithCollection:(LDBCollection *)collection;
 
 -(void) insert:(LDBObject *)object;
+
+-(void) update:(LDBObject *)object;
 
 @end

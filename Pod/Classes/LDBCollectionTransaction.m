@@ -13,6 +13,7 @@
 @private
     
     NSMutableOrderedSet *_insertedObjects;
+    NSMutableOrderedSet *_updatedObjects;
     
 }
 
@@ -34,6 +35,7 @@
         
         _collection = collection;
         _insertedObjects = [[NSMutableOrderedSet alloc] init];
+        _updatedObjects = [[NSMutableOrderedSet alloc] init];
         
     }
 
@@ -50,6 +52,14 @@
 
 }
 
+-(void) update:(LDBObject *)object{
+
+    @synchronized(_updatedObjects){
+        [_updatedObjects addObject:object];
+    }
+
+}
+
 #pragma mark - Accessor methods
 
 -(NSOrderedSet *)insertedObjects{
@@ -57,7 +67,15 @@
     @synchronized(_insertedObjects){
         return [NSOrderedSet orderedSetWithOrderedSet:_insertedObjects];
     }
+    
+}
 
+-(NSOrderedSet *)updatedObjects{
+    
+    @synchronized(_updatedObjects){
+        return [NSOrderedSet orderedSetWithOrderedSet:_updatedObjects];
+    }
+    
 }
 
 @end

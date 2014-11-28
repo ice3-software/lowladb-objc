@@ -249,8 +249,8 @@
     LDBObject *initialObject = [[[LDBObjectBuilder builder] appendString:@"update-me" forField:@"update-me"] finish];
     [coll insert:initialObject];
     
-    [transaction update:object];
-    XCTAssertTrue([transaction.updatedObjects containsObject:object], @"Updated object not registered with transaction");
+    [transaction update:initialObject];
+    XCTAssertTrue([transaction.updatedObjects containsObject:initialObject], @"Updated object not registered with transaction");
     
 }
 
