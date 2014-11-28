@@ -27,6 +27,7 @@
         _collection = collection;
         _insertedObjects = [[NSMutableOrderedSet alloc] init];
         _updatedObjects = [[NSMutableOrderedSet alloc] init];
+        _removedObjects = [[NSMutableOrderedSet alloc] init];
         
     }
 
