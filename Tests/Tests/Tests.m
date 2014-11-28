@@ -14,6 +14,7 @@
 #import "lowladb-objc/LDBObjectBuilder.h"
 #import "lowladb-objc/LDBObjectId.h"
 #import "lowladb-objc/LDBWriteResult.h"
+#import "lowladb-objc/LDBCollectionTransaction.h"
 
 @interface LDB_BasicFunctionalityTests : XCTestCase
 @end
