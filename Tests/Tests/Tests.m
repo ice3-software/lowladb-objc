@@ -235,16 +235,23 @@
 #pragma mark - Transaction tests
 
 
--(void) testAddsInsertedObjectToGraph{
+-(void) testRegistersInsertedObjectWithTransaction{
 
     LDBObject *object = [[[LDBObjectBuilder builder] appendString:@"test" forField:@"test"] finish];
     
     [transaction insert:object];
-    
-    NSLog(@"Set: %@", transaction.insertedObjects);
     XCTAssertTrue([transaction.insertedObjects containsObject:object], @"Inserted object not registered with transaction");
     
 }
 
+-(void) testRegistersUpdatedObjectWithTransaction{
+
+    LDBObject *initialObject = [[[LDBObjectBuilder builder] appendString:@"update-me" forField:@"update-me"] finish];
+    [coll insert:initialObject];
+    
+    [transaction update:object];
+    XCTAssertTrue([transaction.updatedObjects containsObject:object], @"Updated object not registered with transaction");
+    
+}
 
 @end
