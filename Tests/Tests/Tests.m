@@ -188,6 +188,47 @@
 
 /**
  
+ Mock collection class. Stubs out the methods used by LDBCollectionTransaction so
+ that we can spy on the interactions without hitting the db.
+ 
+ @note Opted to use mocks instead of checking the results written to the db because I 
+ can't find a way to mutate a LDBObject instance at the moment. This means I can't reliably
+ test whether an object in the db has been updated with a `save` call.
+ 
+ @note Seems as though we can't delete objects in a collection. Not sure how to go about
+ this...
+ 
+ @author Steve Fortune
+ 
+ */
+
+@interface LDB_MockCollection : LDBCollection
+
+@property (nonatomic) BOOL hasSaveBeenCalled;
+
+@property (nonatomic) BOOL hasInsertBeenCalled;
+
+@property (nonatomic) BOOL hasDeleteBeenCalled;
+
+@end
+
+@implementation LDB_MockCollection
+
+-(id) save:(LDBObject *)object{
+    _hasSaveBeenCalled = YES;
+    return self;
+}
+
+-(id) insert:(LDBObject *)object{
+    _hasInsertBeenCalled = YES;
+    return self;
+}
+
+@end
+
+
+/**
+ 
  Tests for basic commit / rollback support.
  
  @author Steve Fortune
@@ -196,9 +237,7 @@
 
 @interface LDB_TransactionTests : XCTestCase{
 
-    LDBClient *client;
-    LDBDb *db;
-    LDBCollection *coll;
+    LDB_MockCollection *coll;
     LDBCollectionTransaction *transaction;
     
 }
@@ -212,11 +251,8 @@
 
 
 -(void) setUp{
-    
-    client = [[LDBClient alloc] init];
-    [client dropDatabase:@"mytransactions"];
-    db = [client getDatabase:@"mytransactions"];
-    coll = [db getCollection:@"mytransactioncollection"];
+
+    coll = [[LDB_MockCollection alloc] init];
     transaction = [[LDBCollectionTransaction alloc] initWithCollection:coll];
 
 }
@@ -224,9 +260,6 @@
 -(void) tearDown{
     
     coll = nil;
-    db = nil;
-    [client dropDatabase:@"mytransactions"];
-    client = nil;
     coll = nil;
 
 }
@@ -310,6 +343,26 @@
     XCTAssertFalse([transaction.updatedObjects containsObject:object], @"Newly inserted object remains in updated set");
     XCTAssertTrue([transaction.insertedObjects containsObject:object], @"Inserted object not added to inserted set");
 
+}
+
+-(void) testCommitsAllToLowlaCollection{
+
+    LDBObject *insertedObject = [[[LDBObjectBuilder builder] appendString:@"already" forField:@"here"] finish];
+    LDBObject *removeableObject = [[[LDBObjectBuilder builder] appendString:@"delete" forField:@"me"] finish];
+
+    [coll insert:insertedObject];
+    [coll insert:removeableObject];
+    
+    [transaction remove:removeableObject];
+    [transaction update:insertedObject];
+    [transaction insert:[[[LDBObjectBuilder builder] appendString:@"all-new" forField:@"and-shiney"] finish]];
+    
+    [transaction commit];
+    
+    XCTAssertTrue(coll.hasInsertBeenCalled, @"Item not inserted");
+    XCTAssertTrue(coll.hasSaveBeenCalled, @"Item not updated");
+    XCTAssertTrue(coll.hasDeleteBeenCalled, @"Item not deleted - note, not current sure how to delete items in a collection");
+    
 }
 
 @end
