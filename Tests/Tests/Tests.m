@@ -183,3 +183,56 @@
 }
 
 @end
+
+
+/**
+ 
+ Tests for basic commit / rollback support.
+ 
+ @author Steve Fortune
+ 
+ */
+
+@interface LDB_TransactionTests : XCTestCase{
+
+    LDBClient *client;
+    LDBDb *db;
+    LDBCollection *coll;
+    LDBCollectionTransaction *transaction;
+    
+}
+
+@end
+
+@implementation LDB_TransactionTests
+
+
+#pragma mark - Setup / Teardown dependencies
+
+
+-(void) setUp{
+    
+    client = [[LDBClient alloc] init];
+    [client dropDatabase:@"mytransactions"];
+    db = [client getDatabase:@"mytransactions"];
+    coll = [db getCollection:@"mytransactioncollection"];
+    transaction = [[LDBCollectionTransaction alloc] initWithCollection:coll];
+
+}
+
+-(void) tearDown{
+    
+    coll = nil;
+    db = nil;
+    [client dropDatabase:@"mytransactions"];
+    client = nil;
+    coll = nil;
+
+}
+
+
+#pragma mark - Transaction tests
+
+
+
+@end
