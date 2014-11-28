@@ -91,6 +91,9 @@
             /// @todo...
         }
         
+        [_insertedObjects removeAllObjects];
+        [_updatedObjects removeAllObjects];
+        [_removedObjects removeAllObjects];
     }
 }
 
