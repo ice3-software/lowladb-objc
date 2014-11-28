@@ -54,8 +54,15 @@
 
 -(void) remove:(LDBObject *)object{
     
-    @synchronized(_removedObjects){
-        [_removedObjects addObject:object];
+    @synchronized(self){
+        
+        if([_insertedObjects containsObject:object]){
+            [_insertedObjects removeObject:object];
+        }
+        else{
+            [_removedObjects addObject:object];
+        }
+        
     }
     
 }
