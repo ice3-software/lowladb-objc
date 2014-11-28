@@ -288,4 +288,17 @@
 
 }
 
+-(void) testUpdatingAfterInsertingResultsInUnionInsert{
+
+    
+    LDBObject *object = [[[LDBObjectBuilder builder] appendString:@"test" forField:@"test"] finish];
+    
+    [transaction insert:object];
+    [transaction update:object];
+    
+    XCTAssertFalse([transaction.updatedObjects containsObject:object], @"New updated object remains in updated set");
+    XCTAssertTrue([transaction.insertedObjects containsObject:object], @"Inserted object does not remain in inserted set");
+
+}
+
 @end

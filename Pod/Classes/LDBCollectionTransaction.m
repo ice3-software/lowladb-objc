@@ -38,7 +38,7 @@
 
 -(void) insert:(LDBObject *)object{
 
-    @synchronized(_insertedObjects){
+    @synchronized(self){
         [_insertedObjects addObject:object];
     }
 
@@ -47,8 +47,10 @@
 -(void) update:(LDBObject *)object{
     
     @synchronized(self){
-    
-        [_updatedObjects addObject:object];
+        
+        if(![_insertedObjects containsObject:object]){
+            [_updatedObjects addObject:object];
+        }
     }
     
 }
